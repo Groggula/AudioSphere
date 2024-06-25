@@ -1,11 +1,10 @@
-﻿using System.Windows;
+﻿using AudioSphere.ViewModels;
+using AudioSphere.Views;
+using System.Windows;
 using System.Windows.Input;
 
 namespace AudioSphere;
 
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
 public partial class MainWindow : Window
 {
     public MainWindow()
@@ -13,8 +12,17 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
-    private void btnClose_Click(object sender, RoutedEventArgs e)
+    private void OnClose_Click(object sender, RoutedEventArgs e)
     {
         Application.Current.Shutdown();
+    }
+
+    private void OpenSettings_Click(object sender, RoutedEventArgs e)
+    {
+        var settingsWindow = new SettingsWindow
+        {
+            DataContext = new SettingsViewModel()
+        };
+        settingsWindow.ShowDialog();
     }
 }

@@ -15,12 +15,16 @@
 
         <!-- Menu -->
         <Menu Grid.Row="0" Background="#FF2D2D2D" Foreground="#FFDADADA">
+            <MenuItem Header="AudioSphere">
+                <MenuItem Header="About" Foreground="Black"/>
+                <MenuItem Header="Settings" Foreground="Black" Click="OpenSettings_Click"/>
+            </MenuItem>
             <MenuItem Header="File">
                 <MenuItem Header="New Project"/>
                 <MenuItem Header="Open Project"/>
                 <MenuItem Header="Save Project"/>
                 <Separator/>
-                <MenuItem Header="Exit" Click="btnClose_Click" Foreground="Black"/>
+                <MenuItem Header="Exit" Click="OnClose_Click" Foreground="Black"/>
             </MenuItem>
             <MenuItem Header="Edit"/>
             <MenuItem Header="View"/>
@@ -49,6 +53,7 @@
 
             <!-- Track List and Mixer -->
             <Grid Grid.Column="0">
+                
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>

@@ -1,6 +1,7 @@
 ﻿using AudioSphere.Helpers;
 using AudioSphere.Services;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Text;
@@ -11,9 +12,10 @@ namespace AudioSphere.ViewModels;
 public class MainViewModel : INotifyPropertyChanged
 {
     private AudioRecorder _recorder;
-
     private bool _isRecording;
 
+    public event PropertyChangedEventHandler? PropertyChanged;
+    public string RecordButtonColor => IsRecording ? "Black" : "Red";
 
     public bool IsRecording
     {
@@ -30,7 +32,6 @@ public class MainViewModel : INotifyPropertyChanged
         }
     }
 
-    public string RecordButtonColor => IsRecording ? "Black" : "Red";
     public RelayCommand RecordCommand { get; }
     public ICommand StartRecordingCommand { get; }
     public ICommand StopRecordingCommand { get; }
@@ -54,10 +55,12 @@ public class MainViewModel : INotifyPropertyChanged
             StartRecording();
         }
     }
+
     private void StartRecording()
     {
         string outputFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "AudioSphere_Recording.wav");
-        _recorder.StartRecording(outputFilePath);
+        int selectedDeviceInputIndex = Settings.Default.AudioInputDeviceIndex;
+        _recorder.StartRecording(outputFilePath, selectedDeviceInputIndex);
         IsRecording = true;
     }
 
@@ -67,7 +70,6 @@ public class MainViewModel : INotifyPropertyChanged
         IsRecording = false;
     }
 
-    public event PropertyChangedEventHandler? PropertyChanged;
     protected virtual void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -6,5 +6,6 @@
              StartupUri="Views\MainWindow.xaml">
     <Application.Resources>
         <viewModels:MainViewModel x:Key="MainViewModel"/>
+        <viewModels:SettingsViewModel x:Key="SettingsViewModel"/>
     </Application.Resources>
 </Application>
