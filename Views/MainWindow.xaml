@@ -28,21 +28,58 @@
             </MenuItem>
             <MenuItem Header="Edit"/>
             <MenuItem Header="View"/>
-            <MenuItem Header="Track"/>
+            <MenuItem Header="Track">
+                <MenuItem Icon="+" Header="New Tracks..." Foreground="Black"/>
+            </MenuItem>
             <MenuItem Header="Region"/>
             <MenuItem Header="Audio"/>
             <MenuItem Header="Window"/>
         </Menu>
 
         <!-- Toolbar -->
-        <ToolBar Grid.Row="1" Background="#FF2D2D2D" Foreground="#FFDADADA">
-            <Button Content="&#xE768;" FontFamily="Segoe MDL2 Assets" Foreground="#FFDADADA" Background="Transparent"/>
-            <Button Content="&#xE769;" FontFamily="Segoe MDL2 Assets" Foreground="#FFDADADA" Background="Transparent"/>
-            <Button Content="&#xE74E;" FontFamily="Segoe MDL2 Assets" Foreground="#FFDADADA" Background="Transparent"/>
-            <Separator/>
-            <Button Content="&#xE7C3;" FontFamily="Segoe MDL2 Assets" Foreground="#FFDADADA" Background="Transparent"/>
-            <Button Content="&#xEC4F;" FontFamily="Segoe MDL2 Assets" Foreground="#FFDADADA" Background="Transparent"/>
-        </ToolBar>
+        <Grid Grid.Row="1" Background="#FF2D2D2D">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="10 0 0 0">
+                <Button Content="&#xE74E;" FontFamily="Segoe MDL2 Assets" Foreground="#FFDADADA" Background="Transparent" Height="25" Margin="0 0 5 0"/>
+                <Button Content="&#xE7C3;" FontFamily="Segoe MDL2 Assets" Foreground="#FFDADADA" Background="Transparent" Height="25" Margin="0 0 5 0"/>
+                <Separator/>
+                <Button Content="&#xE710;" FontFamily="Segoe MDL2 Assets" Foreground="#FFDADADA" Background="Transparent" Height="25" Command="{Binding AddTrackCommand}"/>
+            </StackPanel>
+            
+            <!-- Transport Controls -->
+            <Grid Grid.Column="1" Height="60">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Border BorderThickness="1" BorderBrush="#1E1E1E" CornerRadius="5" Height="40" Margin="0 0 0 0">
+                        <StackPanel Orientation="Horizontal" Background="#1E1E1E" Height="40" >
+                            <Button BorderThickness="0" Content="&#xE892;" FontFamily="Segoe MDL2 Assets" Width="30" Height="30" Margin="5" Background="Transparent" Foreground="#FFDADADA" FontSize="20"/>
+                            <Button BorderThickness="0" Content="&#xE893;" FontFamily="Segoe MDL2 Assets" Width="30" Height="30" Margin="5" Background="Transparent" Foreground="#FFDADADA" FontSize="20"/>
+                            <Button BorderThickness="0" Content="&#xE768;" FontFamily="Segoe MDL2 Assets" Width="30" Height="30" Margin="5" Background="Transparent" Foreground="#FFDADADA" FontSize="20"/>
+                            <Button BorderThickness="0" Content="&#xE769;" FontFamily="Segoe MDL2 Assets" Width="30" Height="30" Margin="5" Background="Transparent" Foreground="#FFDADADA" FontSize="20"/>
+                            <Button BorderThickness="0" Content="&#xE7C8;" FontFamily="Segoe MDL2 Assets" Width="30" Height="30" Margin="5" Background="Transparent" Foreground="{Binding RecordButtonColor}" FontSize="20" Command="{Binding RecordCommand }"/>
+                            <Button BorderThickness="0" Content="&#xE895;" FontFamily="Segoe MDL2 Assets" Width="30" Height="30" Margin="5" Background="Transparent" Foreground="#FFDADADA" FontSize="20"/>
+                        </StackPanel>
+                    </Border>
+
+
+                    <Border BorderThickness="1" BorderBrush="black" CornerRadius="5" Margin="10 0 10 5">
+                        <StackPanel Orientation="Horizontal" Background="Black">
+                            <TextBlock Text="{Binding ElapsedTimeString}" Foreground="#FFDADADA" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 0 0 0"/>
+                            <TextBlock Text="BPM: 120" Foreground="#FFDADADA" FontSize="24" VerticalAlignment="Center" Margin="10 0 10 0"/>
+                        </StackPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="#1E1E1E" CornerRadius="5" Height="40" Margin="0 0 0 0">
+                        <StackPanel Orientation="Horizontal" Background="#1E1E1E" Height="40" >
+                            <Button BorderThickness="0" Content="&#xE93C;" FontFamily="Segoe MDL2 Assets" Width="30" Height="30" Margin="5" Background="Transparent" Foreground="#FFDADADA" FontSize="20"/>
+                            <Button BorderThickness="0" Content="&#xE90B;" FontFamily="Segoe MDL2 Assets" Width="30" Height="30" Margin="5" Background="Transparent" Foreground="#FFDADADA" FontSize="20"/>
+                            <Button BorderThickness="0" Content="&#xE995;" FontFamily="Segoe MDL2 Assets" Width="30" Height="30" Margin="5" Background="Transparent" Foreground="#FFDADADA" FontSize="20"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </Grid>
 
         <!-- Main Content Area -->
         <Grid Grid.Row="2">
@@ -60,31 +97,42 @@
                 </Grid.RowDefinitions>
 
                 <!-- Track List -->
-                <ListBox Grid.Row="0" Background="#FF252526" Foreground="#FFDADADA"
+                <ListBox ItemsSource="{Binding TrackList}" Grid.Row="0" Background="#FF252526" Foreground="#FFDADADA"
                          BorderBrush="#FF3F3F46" BorderThickness="0,0,1,0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" Foreground="White"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <ListBox Background="#FF252526">
                     <ListBoxItem>
-                        <StackPanel Orientation="Horizontal">
-                            <Ellipse Fill="#FFE74C3C" Width="10" Height="10" Margin="0,0,5,0"/>
-                            <TextBlock Text="Vocals"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem>
-                        <StackPanel Orientation="Horizontal">
-                            <Ellipse Fill="#FF3498DB" Width="10" Height="10" Margin="0,0,5,0"/>
-                            <TextBlock Text="Guitar"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem>
-                        <StackPanel Orientation="Horizontal">
-                            <Ellipse Fill="#FF2ECC71" Width="10" Height="10" Margin="0,0,5,0"/>
-                            <TextBlock Text="Drums"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem>
-                        <StackPanel Orientation="Horizontal">
-                            <Ellipse Fill="#FF9B59B6" Width="10" Height="10" Margin="0,0,5,0"/>
-                            <TextBlock Text="Bass"/>
-                        </StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Ellipse Grid.Column="0" Grid.RowSpan="2" Fill="#FF3498DB" Width="10" Height="10" Margin="0,0,5,0"/>
+                            <TextBlock Grid.Column="1" Text="Guitar" Foreground="#FFDADADA" FontSize="20" HorizontalAlignment="Center"/>
+                            <Border Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" BorderThickness="1" BorderBrush="Black" Background="Black" CornerRadius="5">
+                                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="0">
+                                    <Button Background="Transparent" BorderThickness="0" Foreground="#FFDADADA" FontWeight="Bold" FontSize="14" Margin="0 0 5 0" Content="M" ToolTip="Mute" />
+                                    <Button Background="Transparent" BorderThickness="0" Foreground="#FFDADADA" FontWeight="Bold" FontSize="14" Margin="0 0 5 0" Content="S" ToolTip="Solo"/>
+                                    <Button Background="Transparent" BorderThickness="0" Foreground="#FFDADADA" FontWeight="Bold" FontSize="14" Content="R" ToolTip="Record Ready"/>
+                                </StackPanel>
+                            </Border>
+                            <StackPanel Grid.RowSpan="2" Grid.Column="2" VerticalAlignment="Center" Orientation="Vertical">
+                                <Slider Orientation="Horizontal" Background="Transparent" Foreground="#FF3498DB" Value="7"/>
+                                <Slider Orientation="Horizontal" Background="Transparent" Foreground="#FF3498DB" ToolTip="Panning" Value="5" />
+
+                            </StackPanel>
+                        </Grid>
                     </ListBoxItem>
                 </ListBox>
 
@@ -135,7 +183,7 @@
                 </Grid.RowDefinitions>
 
                 <!-- Time Ruler -->
-                <Canvas Grid.Row="0" Height="30" Background="#FF2D2D30">
+                <Canvas Grid.Row="0" Height="30" Background="#1E1E1E">
                     <TextBlock Text="0:00" Foreground="#FFDADADA" Canvas.Left="10" Canvas.Top="5"/>
                     <TextBlock Text="0:30" Foreground="#FFDADADA" Canvas.Left="200" Canvas.Top="5"/>
                     <TextBlock Text="1:00" Foreground="#FFDADADA" Canvas.Left="390" Canvas.Top="5"/>
@@ -190,7 +238,7 @@
             </Grid>
         </Grid>
 
-        <!-- Transport Controls -->
+        <!-- Transport Controls --><!--
         <Grid Grid.Row="3" Background="#FF2D2D2D" Height="60">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -206,13 +254,14 @@
             </StackPanel>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="00:00:00:00" Foreground="#FFDADADA" FontSize="24" VerticalAlignment="Center"/>
+                <TextBlock Text="BPM: 120" Foreground="#FFDADADA" FontSize="24" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding ElapsedTimeString}" Foreground="#FFDADADA" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
 
             <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="10,0">
                 <Button Content="&#xE7C8;" FontFamily="Segoe MDL2 Assets" Width="40" Height="40" Margin="5" Background="Transparent" Foreground="{Binding RecordButtonColor}" FontSize="20" Command="{Binding RecordCommand }"/>
                 <Button Content="&#xE995;" FontFamily="Segoe MDL2 Assets" Width="40" Height="40" Margin="5" Background="Transparent" Foreground="#FFDADADA" FontSize="20" Command="{Binding StopRecordingCommand}"/>
             </StackPanel>
-        </Grid>
+        </Grid>-->
     </Grid>
 </Window>

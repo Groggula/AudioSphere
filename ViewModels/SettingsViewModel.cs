@@ -26,7 +26,7 @@ public class SettingsViewModel : INotifyPropertyChanged
             if (_selectedInputDeviceIndex != value)
             {
                 //_selectedInputDeviceIndex = value;
-                Settings.Default.AudioInputDeviceIndex = value;
+                Properties.Settings.Default.AudioInputDeviceIndex = value;
                 OnPropertyChanged(nameof(SelectedInputDeviceIndex));
             }
         }
@@ -40,7 +40,7 @@ public class SettingsViewModel : INotifyPropertyChanged
             if(_selectedOutputDeviceIndex != value)
             {
                 //_selectedOutputDeviceIndex = value;
-                Settings.Default.AudioOutputDeviceIndex = value;
+                Properties.Settings.Default.AudioOutputDeviceIndex = value;
                 OnPropertyChanged(nameof(SelectedOutputDeviceIndex));
             }
         }
@@ -56,9 +56,9 @@ public class SettingsViewModel : INotifyPropertyChanged
 
     private void SaveSettings()
     {
-        Settings.Default.AudioInputDeviceIndex = SelectedInputDeviceIndex;
-        Settings.Default.AudioOutputDeviceIndex = SelectedOutputDeviceIndex;
-        Settings.Default.Save();
+        Properties.Settings.Default.AudioInputDeviceIndex = SelectedInputDeviceIndex;
+        Properties.Settings.Default.AudioOutputDeviceIndex = SelectedOutputDeviceIndex;
+        Properties.Settings.Default.Save();
         Application.Current.Windows.OfType<SettingsWindow>().FirstOrDefault()?.Close();
     }
 
