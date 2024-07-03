@@ -15,6 +15,8 @@ public class SettingsViewModel : INotifyPropertyChanged
     private int _selectedInputDeviceIndex;
     private int _selectedOutputDeviceIndex;
 
+    private MainViewModel _mainViewModel;
+
     public ObservableCollection<string> AudioInputDevices { get; }
     public ObservableCollection<string> AudioOutputDevices { get; }
 
@@ -47,11 +49,13 @@ public class SettingsViewModel : INotifyPropertyChanged
     }
 
     public ICommand SaveCommand { get; }
+    public ICommand CancelCommand { get; }
     public SettingsViewModel()
     {
         AudioInputDevices = new ObservableCollection<string>(AudioRecorder.GetAudioInputDevices());
         AudioOutputDevices = new ObservableCollection<string>(AudioRecorder.GetAudioOutputDevices());
-        SaveCommand = new RelayCommand(SaveSettings);
+        SaveCommand = new RelayCommand(_ => SaveSettings(), _ => true);
+        CancelCommand = new RelayCommand(_ => CancelSettings(), _ => true);
     }
 
     private void SaveSettings()
@@ -60,6 +64,17 @@ public class SettingsViewModel : INotifyPropertyChanged
         Properties.Settings.Default.AudioOutputDeviceIndex = SelectedOutputDeviceIndex;
         Properties.Settings.Default.Save();
         Application.Current.Windows.OfType<SettingsWindow>().FirstOrDefault()?.Close();
+    }
+
+    private void CancelSettings()
+    {
+        foreach (Window window in Application.Current.Windows)
+        {
+            if (window.DataContext == this)
+            {
+                window.Close();
+            }
+        }
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

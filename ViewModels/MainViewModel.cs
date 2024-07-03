@@ -51,9 +51,11 @@ public class MainViewModel : BaseViewModel
     }
 
     public ICommand AddTrackCommand { get; }
+    public ICommand DeleteTrackCommand { get; }
     public RelayCommand RecordCommand { get; }
-    public ICommand StartRecordingCommand { get; }
-    public ICommand StopRecordingCommand { get; }
+    public RelayCommand ToggleMuteTrackCommand { get; }
+    //public ICommand StartRecordingCommand { get; }
+    //public ICommand StopRecordingCommand { get; }
 
     public MainViewModel()
     {
@@ -63,18 +65,34 @@ public class MainViewModel : BaseViewModel
         _newTrackItem = new TrackModel();
         _trackList = new ObservableCollection<TrackModel>();
 
-        AddTrackCommand = new RelayCommand(AddNewTrack);
-        RecordCommand = new RelayCommand(ToggleRecording, () => true);
-        StartRecordingCommand = new RelayCommand(StartRecording, () => !IsRecording);
-        StopRecordingCommand = new RelayCommand(StopRecording, () => IsRecording);
+        AddTrackCommand = new RelayCommand(_ => AddNewTrack(), _ => true);
+        DeleteTrackCommand = new RelayCommand(param => DeleteTrack(param as TrackModel), param => param is TrackModel);
+        RecordCommand = new RelayCommand(_ => ToggleRecording(), _ => true);
+        //StartRecordingCommand = new RelayCommand(StartRecording, () => !IsRecording);
+        //StopRecordingCommand = new RelayCommand(StopRecording, () => IsRecording);
 
+        ToggleMuteTrackCommand = new RelayCommand(_ => ToggleMuteTrack(), _ => true);
+
+    }
+
+    private void ToggleMuteTrack()
+    {
+        //
     }
 
     private void AddNewTrack()
     {
         if (NewTrackItem != null)
         {
-            TrackList.Add(new TrackModel { Name = "Audio 1", Color = "White", Pan = 5 }); ;
+            TrackList.Add(new TrackModel { Name = "Audio 1", Color = "Red", Pan = 0 }); ;
+        }
+    }
+
+    private void DeleteTrack(TrackModel track)
+    {
+        if (track != null && TrackList.Contains(track))
+        {
+            TrackList.Remove(track);
         }
     }
 

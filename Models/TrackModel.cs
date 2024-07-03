@@ -12,6 +12,10 @@ public class TrackModel : BaseViewModel
     private bool _isSoloed;
     private bool _isRecordEnabled;
     private ObservableCollection<string>? _audioClips;
+    private ObservableCollection<string>? _selectableColors;
+
+
+    public string ToggleOn => IsMuted ? "Black" : "Red";
 
     public string Name
     {
@@ -55,5 +59,10 @@ public class TrackModel : BaseViewModel
         set => SetProperty(ref _audioClips, value);
     }
 
+    public ObservableCollection<string>  SelectableColors
+    {
+        get => _selectableColors!;
+        set => SetProperty(ref _selectableColors, value);
+    }
 
 }
