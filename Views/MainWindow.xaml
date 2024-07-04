@@ -72,12 +72,57 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Border BorderThickness="1" BorderBrush="#1E1E1E" CornerRadius="5" Height="40" Margin="0 0 0 0">
                         <StackPanel Orientation="Horizontal" Background="#1E1E1E" Height="40" >
-                            <Button BorderThickness="0" Content="&#xE892;" FontFamily="Segoe MDL2 Assets" Width="30" Height="30" Margin="5" Background="Transparent" Foreground="#FFDADADA" FontSize="20"/>
-                            <Button BorderThickness="0" Content="&#xE893;" FontFamily="Segoe MDL2 Assets" Width="30" Height="30" Margin="5" Background="Transparent" Foreground="#FFDADADA" FontSize="20"/>
-                            <Button BorderThickness="0" Content="&#xE768;" FontFamily="Segoe MDL2 Assets" Width="30" Height="30" Margin="5" Background="Transparent" Foreground="#FFDADADA" FontSize="20"/>
-                            <Button BorderThickness="0" Content="&#xE769;" FontFamily="Segoe MDL2 Assets" Width="30" Height="30" Margin="5" Background="Transparent" Foreground="#FFDADADA" FontSize="20"/>
-                            <Button BorderThickness="0" Content="&#xE7C8;" FontFamily="Segoe MDL2 Assets" Width="30" Height="30" Margin="5" Background="Transparent" Foreground="{Binding RecordButtonColor}" FontSize="20" Command="{Binding RecordCommand }"/>
-                            <Button BorderThickness="0" Content="&#xE895;" FontFamily="Segoe MDL2 Assets" Width="30" Height="30" Margin="5" Background="Transparent" Foreground="#FFDADADA" FontSize="20"/>
+                            <Button BorderThickness="0" 
+                                    Content="&#xE892;" 
+                                    FontFamily="Segoe MDL2 Assets" 
+                                    Width="30" Height="30" 
+                                    Margin="5" 
+                                    Background="Transparent" 
+                                    Foreground="#FFDADADA" 
+                                    FontSize="20"/>
+                            <Button BorderThickness="0" 
+                                    Content="&#xE893;" 
+                                    FontFamily="Segoe MDL2 Assets" 
+                                    Width="30" Height="30" 
+                                    Margin="5" 
+                                    Background="Transparent" 
+                                    Foreground="#FFDADADA" 
+                                    FontSize="20"/>
+                            <Button BorderThickness="0" 
+                                    Content="&#xE768;" 
+                                    FontFamily="Segoe MDL2 Assets" 
+                                    Width="30" Height="30" 
+                                    Margin="5" 
+                                    Background="Transparent" 
+                                    Foreground="{Binding ActiveButtonColor}" 
+                                    FontSize="20"
+                                    Command="{Binding PlayCommand}"/>
+                            <Button BorderThickness="0" 
+                                    Content="&#xE769;" 
+                                    FontFamily="Segoe MDL2 Assets" 
+                                    Width="30" Height="30" 
+                                    Margin="5" 
+                                    Background="Transparent" 
+                                    Foreground="#FFDADADA" 
+                                    FontSize="20"
+                                    Command="{Binding PauseCommand}"/>
+                            <Button BorderThickness="0" 
+                                    Content="&#xE7C8;" 
+                                    FontFamily="Segoe MDL2 Assets" 
+                                    Width="30" Height="30" 
+                                    Margin="5" 
+                                    Background="Transparent" 
+                                    Foreground="{Binding RecordButtonColor}" 
+                                    FontSize="20" 
+                                    Command="{Binding RecordCommand }"/>
+                            <Button BorderThickness="0" 
+                                    Content="&#xE895;" 
+                                    FontFamily="Segoe MDL2 Assets" 
+                                    Width="30" Height="30" 
+                                    Margin="5" 
+                                    Background="Transparent" 
+                                    Foreground="#FFDADADA" 
+                                    FontSize="20"/>
                         </StackPanel>
                     </Border>
 
