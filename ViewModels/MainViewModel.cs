@@ -1,10 +1,12 @@
 ﻿using AudioSphere.Helpers;
 using AudioSphere.Models;
 using AudioSphere.Services;
+using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Windows;
 using System.Windows.Input;
 
 namespace AudioSphere.ViewModels;
@@ -52,6 +54,7 @@ public class MainViewModel : BaseViewModel
 
     public ICommand AddTrackCommand { get; }
     public ICommand DeleteTrackCommand { get; }
+    public ICommand ImportAudioFileCommand { get; }
     public RelayCommand RecordCommand { get; }
     public RelayCommand ToggleMuteTrackCommand { get; }
     //public ICommand StartRecordingCommand { get; }
@@ -66,12 +69,13 @@ public class MainViewModel : BaseViewModel
         _trackList = new ObservableCollection<TrackModel>();
 
         AddTrackCommand = new RelayCommand(_ => AddNewTrack(), _ => true);
-        DeleteTrackCommand = new RelayCommand(param => DeleteTrack(param as TrackModel), param => param is TrackModel);
         RecordCommand = new RelayCommand(_ => ToggleRecording(), _ => true);
+        ImportAudioFileCommand = new RelayCommand(_ =>  ImportAudioFile(), _ => true);
+        ToggleMuteTrackCommand = new RelayCommand(_ => ToggleMuteTrack(), _ => true);
+        DeleteTrackCommand = new RelayCommand(param => DeleteTrack(param as TrackModel), param => param is TrackModel);
         //StartRecordingCommand = new RelayCommand(StartRecording, () => !IsRecording);
         //StopRecordingCommand = new RelayCommand(StopRecording, () => IsRecording);
 
-        ToggleMuteTrackCommand = new RelayCommand(_ => ToggleMuteTrack(), _ => true);
 
     }
 
@@ -84,7 +88,7 @@ public class MainViewModel : BaseViewModel
     {
         if (NewTrackItem != null)
         {
-            TrackList.Add(new TrackModel { Name = "Audio 1", Color = "Red", Pan = 0 }); ;
+            TrackList.Add(new TrackModel { Name = $"Audio {TrackList.Count +1}", Color = "Red", Pan = 0 }); ;
         }
     }
 
@@ -122,6 +126,35 @@ public class MainViewModel : BaseViewModel
         _recorder.StopRecording();
         _timer.Stop();
         IsRecording = false;
+    }
+
+    private void ImportAudioFile()
+    {
+        OpenFileDialog openFileDialog = new OpenFileDialog
+        {
+            Title = "Import audio file",
+        };
+
+        if (openFileDialog.ShowDialog() == true)
+        {
+            string filePath = openFileDialog.FileName;
+            string fileName = Path.GetFileName(filePath);
+            try
+            {
+                if (File.Exists(filePath))
+                {
+                    TrackList.Add(new TrackModel { Name = fileName, Color = "Transparent", Pan = 0 }); ;
+                }
+                else
+                {
+                    MessageBox.Show("Could not import file");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Audio file import failed: {ex.Message}");
+            }
+        }
     }
 
     private void TimerModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)

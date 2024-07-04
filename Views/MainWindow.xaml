@@ -43,10 +43,28 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="10 0 0 0">
-                <Button Content="&#xE74E;" FontFamily="Segoe MDL2 Assets" Foreground="#FFDADADA" Background="Transparent" Height="25" Margin="0 0 5 0"/>
-                <Button Content="&#xE7C3;" FontFamily="Segoe MDL2 Assets" Foreground="#FFDADADA" Background="Transparent" Height="25" Margin="0 0 5 0"/>
+                <Button Content="&#xE74E;" 
+                        FontFamily="Segoe MDL2 Assets" 
+                        Foreground="#FFDADADA" 
+                        Background="Transparent" 
+                        Height="25" 
+                        Margin="0 0 5 0"
+                        ToolTip="Save project"/>
+                <Button Content="&#xE7C3;" 
+                        FontFamily="Segoe MDL2 Assets" 
+                        Foreground="#FFDADADA" 
+                        Background="Transparent" 
+                        Height="25" 
+                        Margin="0 0 5 0"
+                        ToolTip="New project"/>
                 <Separator/>
-                <Button Content="&#xE710;" FontFamily="Segoe MDL2 Assets" Foreground="#FFDADADA" Background="Transparent" Height="25" Command="{Binding AddTrackCommand}"/>
+                <Button Content="&#xE710;" 
+                        FontFamily="Segoe MDL2 Assets" 
+                        Foreground="#FFDADADA" 
+                        Background="Transparent" 
+                        Height="25"
+                        ToolTip="Quick add track"
+                        Command="{Binding AddTrackCommand}"/>
             </StackPanel>
             
             <!-- Transport Controls -->
@@ -109,20 +127,21 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="25"/>
                                     <RowDefinition Height="20"/>
+                                    <RowDefinition Height="auto"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <Ellipse Grid.Column="0" Grid.RowSpan="2" Fill="{Binding Color}" Width="20" Height="20"/>
-                                <TextBlock Grid.Column="1" Text="{Binding Name}" Foreground="#FFDADADA" FontSize="20" HorizontalAlignment="Center"/>
-                                <Border Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" BorderThickness="1" BorderBrush="Black" Background="Black" CornerRadius="5">
-                                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="0">
+                                <Ellipse Grid.Column="0" Grid.RowSpan="4" Fill="{Binding Color}" Width="20" Height="20"/>
+                                <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Margin="5 0 0 0" Text="{Binding Name}" Foreground="#FFDADADA" FontSize="18" HorizontalAlignment="Left"/>
+                                <Border Grid.Row="2" Grid.Column="1" Height="20" HorizontalAlignment="Center" BorderThickness="1" BorderBrush="Black" Background="Black" CornerRadius="5">
+                                    <StackPanel Orientation="Horizontal">
                                         <Button Command="{Binding IsMuted}" Background="Transparent" BorderThickness="0" Foreground="#FFDADADA" FontWeight="Bold" FontSize="14" Margin="0 0 5 0" Content="M" ToolTip="Mute" />
                                         <Button Background="Transparent" BorderThickness="0" Foreground="#FFDADADA" FontWeight="Bold" FontSize="14" Margin="0 0 5 0" Content="S" ToolTip="Solo"/>
                                         <Button Background="Transparent" BorderThickness="0" Foreground="#FFDADADA" FontWeight="Bold" FontSize="14" Content="R" ToolTip="Record Ready"/>
                                     </StackPanel>
                                 </Border>
-                                <StackPanel Grid.RowSpan="2" Grid.Column="2" VerticalAlignment="Center" Orientation="Vertical">
+                                <StackPanel Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Orientation="Vertical">
                                     <Slider Orientation="Horizontal" Background="Transparent" Foreground="#FF3498DB" Value="{Binding Volume}"/>
                                     <Slider Orientation="Horizontal" Background="Transparent" Foreground="#FF3498DB" ToolTip="Panning" Minimum="-64" Maximum="63" Value="{Binding Pan}" />
 
@@ -207,6 +226,12 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
+                        <ScrollViewer.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Import audio file..."
+                                          Command="{Binding ImportAudioFileCommand}"/>
+                            </ContextMenu>
+                        </ScrollViewer.ContextMenu>
                 </ScrollViewer>
             </Grid>
         </Grid>
