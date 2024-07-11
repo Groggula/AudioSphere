@@ -6,8 +6,9 @@
              xmlns:local="clr-namespace:AudioSphere.Views"
              mc:Ignorable="d" 
              d:DesignHeight="70" d:DesignWidth="800"
+             DataContext="{StaticResource TimelineViewModel}"
              Background="#FF1E1E1E">
-    <Grid>
+    <!--<Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
@@ -111,5 +112,65 @@
                 Minimum="0"
                 Maximum="100"
                 Margin="10"/>
+    </Grid>-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Scrollable Timeline -->
+        <ScrollViewer x:Name="TimelineScrollViewer" 
+                      Grid.Row="0" 
+                      Height="30"
+                      Margin="10 0 0 0"
+                      HorizontalScrollBarVisibility="Hidden" 
+                      VerticalScrollBarVisibility="Disabled"
+                      PreviewMouseWheel="TimelineScrollViewer_PreviewMouseWheel">
+            <ItemsControl ItemsSource="{Binding Bars}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Beat}" 
+                                       Foreground="#FFDADADA" 
+                                       FontWeight="Bold"/>
+                            <Line Y1="0" 
+                                  Y2="30" 
+                                  Stroke="Gray" 
+                                  StrokeThickness="1"
+                                  Margin="0 0 50 0"/>
+                            <Line Y1="15" 
+                                  Y2="30" 
+                                  Stroke="Gray" 
+                                  StrokeThickness="1" 
+                                  Margin="0 0 50 0"/>
+                            <Line Y1="15" 
+                                  Y2="30" 
+                                  Stroke="Gray" 
+                                  StrokeThickness="1" 
+                                  Margin="0 0 50 0"/>
+                            <Line Y1="15" 
+                                  Y2="30" 
+                                  Stroke="Gray" 
+                                  StrokeThickness="1" 
+                                  Margin="0 0 50 0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <!-- Slider -->
+        <Slider x:Name="ScrollSlider" Grid.Row="1"
+                Minimum="0"
+                Maximum="{Binding ElementName=TimelineScrollViewer, Path=ExtentWidth}"
+                ValueChanged="ScrollSlider_ValueChanged"
+                Margin="10"
+                IsMoveToPointEnabled="True"/>
     </Grid>
 </UserControl>

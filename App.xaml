@@ -7,6 +7,7 @@
     <Application.Resources>
         <viewModels:MainViewModel x:Key="MainViewModel"/>
         <viewModels:SettingsViewModel x:Key="SettingsViewModel"/>
-        <viewModels:AddNewTrackViewModel x:Key="AddNewTrackViewModel"/>
+        <!--<viewModels:AddNewTrackViewModel x:Key="AddNewTrackViewModel"/>-->
+        <viewModels:TimelineViewModel x:Key="TimelineViewModel"/>
     </Application.Resources>
 </Application>
