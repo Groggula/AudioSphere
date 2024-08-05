@@ -3,7 +3,6 @@ using AudioSphere.Models;
 using AudioSphere.Services;
 using Microsoft.Win32;
 using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
@@ -16,28 +15,19 @@ public class MainViewModel : BaseViewModel
     private AudioRecorder _recorder;
     private AudioPlayback _playback;
     private TimerModel _timer;
+    private TimelineViewModel _timelineVM;
     private bool _isRecording;
     private bool _isPlaybackActive;
+
+    public TimelineViewModel TimelineVM
+    {
+        get => _timelineVM;
+        set => SetProperty(ref _timelineVM, value);
+    }
 
     public string RecordButtonColor => IsRecording ? "Black" : "Red";
     public string ActiveButtonColor => IsPlaybackActive ? "Blue" : "#FFDADADA";
     public string ElapsedTimeString => _timer.ElapsedTimeString;
-
-    private ObservableCollection<TrackModel> _trackList;
-    private TrackModel _newTrackItem;
-
-    public TrackModel NewTrackItem
-    {
-        get => _newTrackItem;
-        set => SetProperty(ref _newTrackItem, value);
-    }
-
-
-    public ObservableCollection<TrackModel> TrackList
-    {
-        get => _trackList;
-        set => SetProperty(ref _trackList, value);
-    }
 
     public bool IsPlaybackActive
     {
@@ -76,22 +66,26 @@ public class MainViewModel : BaseViewModel
     public RelayCommand RecordCommand { get; }
     public RelayCommand ToggleMuteTrackCommand { get; }
 
-    public MainViewModel()
+    public MainViewModel(TimelineViewModel timelineVM)
     {
         _recorder = new AudioRecorder();
         _playback = new AudioPlayback();
         _timer = new TimerModel();
         _timer.PropertyChanged += TimerModel_PropertyChanged;
-        _newTrackItem = new TrackModel();
-        _trackList = new ObservableCollection<TrackModel>();
 
         PlayCommand = new RelayCommand(_ => Play(), _ => true);
-        PauseCommand = new RelayCommand(_ =>Pause(), _ => true);
+        PauseCommand = new RelayCommand(_ => Pause(), _ => true);
         AddTrackCommand = new RelayCommand(_ => AddNewTrack(), _ => true);
         RecordCommand = new RelayCommand(_ => ToggleRecording(), _ => true);
-        ImportAudioFileCommand = new RelayCommand(_ =>  ImportAudioFile(), _ => true);
+        ImportAudioFileCommand = new RelayCommand(_ => ImportAudioFile(), _ => true);
         ToggleMuteTrackCommand = new RelayCommand(_ => ToggleMuteTrack(), _ => true);
         DeleteTrackCommand = new RelayCommand(param => DeleteTrack(param as TrackModel), param => param is TrackModel);
+
+        _timelineVM = timelineVM ?? throw new ArgumentNullException(nameof(timelineVM));
+    }
+    public MainViewModel()
+    {
+        
     }
 
     private void Play()
@@ -113,18 +107,12 @@ public class MainViewModel : BaseViewModel
 
     private void AddNewTrack()
     {
-        if (NewTrackItem != null)
-        {
-            TrackList.Add(new TrackModel { Name = $"Audio {TrackList.Count +1}", Color = "Red", Pan = 0 }); ;
-        }
+        _timelineVM.AddTrack();
     }
 
     private void DeleteTrack(TrackModel track)
     {
-        if (track != null && TrackList.Contains(track))
-        {
-            TrackList.Remove(track);
-        }
+        _timelineVM.DeleteTrack(track);
     }
 
     private void ToggleRecording()
@@ -170,7 +158,7 @@ public class MainViewModel : BaseViewModel
             {
                 if (File.Exists(filePath))
                 {
-                    TrackList.Add(new TrackModel { Name = fileName, Color = "Transparent", Pan = 0 }); ;
+                    _timelineVM.TrackList.Add(new TrackModel { Name = fileName, Color = "Transparent", Pan = 0 }); ;
                 }
                 else
                 {

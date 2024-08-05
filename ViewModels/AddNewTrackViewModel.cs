@@ -9,7 +9,8 @@ namespace AudioSphere.ViewModels;
 
 public class AddNewTrackViewModel : BaseViewModel
 {
-    private readonly MainViewModel _mainVM;
+    private MainViewModel _mainVM;
+    private TimelineViewModel _timelineVM;
     private TrackModel _trackItem;
 
     public TrackModel TrackItem
@@ -21,9 +22,11 @@ public class AddNewTrackViewModel : BaseViewModel
     public ICommand AddTrackCommand { get; }
     public ICommand CancelAddTrackCommand { get; }
 
-    public AddNewTrackViewModel(MainViewModel mainVM)
+    public AddNewTrackViewModel(TimelineViewModel timelineVM, MainViewModel mainVM)
     {
-        _mainVM = mainVM;
+        _mainVM = mainVM ?? throw new ArgumentNullException(nameof(mainVM));
+        _timelineVM = timelineVM ?? throw new ArgumentNullException(nameof(timelineVM));
+
         _trackItem = new TrackModel();
 
         AddTrackCommand = new RelayCommand(_ => AddTrack(), _ => true);
@@ -36,7 +39,7 @@ public class AddNewTrackViewModel : BaseViewModel
     {
         if (TrackItem != null)
         {
-            _mainVM.TrackList.Add(new TrackModel { Name = TrackItem.Name, Color = TrackItem.Color, Pan = 5 });
+            _timelineVM.TrackList.Add(new TrackModel { Name = TrackItem.Name, Color = TrackItem.Color, Pan = 5 });
         }
     }
 

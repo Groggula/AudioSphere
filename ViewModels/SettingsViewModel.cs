@@ -15,7 +15,7 @@ public class SettingsViewModel : INotifyPropertyChanged
     private int _selectedInputDeviceIndex;
     private int _selectedOutputDeviceIndex;
 
-    private MainViewModel _mainViewModel;
+    private readonly MainViewModel _mainVM;
 
     public ObservableCollection<string> AudioInputDevices { get; }
     public ObservableCollection<string> AudioOutputDevices { get; }
@@ -50,8 +50,10 @@ public class SettingsViewModel : INotifyPropertyChanged
 
     public ICommand SaveCommand { get; }
     public ICommand CancelCommand { get; }
-    public SettingsViewModel()
+    public SettingsViewModel(MainViewModel mainVM)
     {
+        _mainVM = mainVM ?? throw new ArgumentNullException(nameof(mainVM));
+
         AudioInputDevices = new ObservableCollection<string>(AudioRecorder.GetAudioInputDevices());
         AudioOutputDevices = new ObservableCollection<string>(AudioRecorder.GetAudioOutputDevices());
         SaveCommand = new RelayCommand(_ => SaveSettings(), _ => true);

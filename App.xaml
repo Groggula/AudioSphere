@@ -3,11 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:AudioSphere"
              xmlns:viewModels="clr-namespace:AudioSphere.ViewModels"
-             StartupUri="Views\MainWindow.xaml">
+             xmlns:helpers="clr-namespace:AudioSphere.Helpers"
+             >
     <Application.Resources>
-        <viewModels:MainViewModel x:Key="MainViewModel"/>
-        <viewModels:SettingsViewModel x:Key="SettingsViewModel"/>
-        <!--<viewModels:AddNewTrackViewModel x:Key="AddNewTrackViewModel"/>-->
-        <viewModels:TimelineViewModel x:Key="TimelineViewModel"/>
+
     </Application.Resources>
 </Application>

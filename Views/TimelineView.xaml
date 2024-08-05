@@ -3,118 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:AudioSphere.Views"
+             xmlns:local="clr-namespace:AudioSphere.Views" 
+             xmlns:viewModels="clr-namespace:AudioSphere.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="70" d:DesignWidth="800"
-             DataContext="{StaticResource TimelineViewModel}"
+             d:DesignHeight="700" d:DesignWidth="1150"
              Background="#FF1E1E1E">
-    <!--<Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-     
-        <Canvas Grid.Row="0" Height="30">
-            <Line Canvas.Left="8"
-                  Canvas.Top="0"
-                  Y1="30"
-                  Stroke="Gray"
-                  />
-            <TextBlock Text="1" 
-                       Foreground="#FFDADADA" 
-                       Canvas.Left="10"
-                       FontWeight="Bold"/>
-            <Line Canvas.Left="62"
-                  Canvas.Top="0"
-                  Y1="15"
-                  Y2="30"
-                  Stroke="Gray"
-                  />
-            <Line Canvas.Left="124"
-                  Canvas.Top="0"
-                  Y1="15"
-                  Y2="30"
-                  Stroke="Gray"
-                  />
-            <Line Canvas.Left="186"
-                  Canvas.Top="0"
-                  Y1="15"
-                  Y2="30"
-                  Stroke="Gray"
-                  />
-            <Line Canvas.Left="248"
-                  Canvas.Top="0"
-                  Y1="30"
-                  Stroke="Gray"
-                  />
-            <TextBlock Text="2" 
-                       Foreground="#FFDADADA" 
-                       Canvas.Left="250" 
-                       FontWeight="Bold"/>
-            <Line Canvas.Left="312"
-                  Canvas.Top="0"
-                  Y1="15"
-                  Y2="30"
-                  Stroke="Gray"
-                  />
-            <Line Canvas.Left="374"
-                  Canvas.Top="0"
-                  Y1="15"
-                  Y2="30"
-                  Stroke="Gray"
-                  />
-            <Line Canvas.Left="436"
-                  Canvas.Top="0"
-                  Y1="15"
-                  Y2="30"
-                  Stroke="Gray"
-                  />
-            <Line Canvas.Left="498"
-                  Canvas.Top="0"
-                  Y1="30"
-                  Stroke="Gray"
-                  />
-            <TextBlock Text="3" 
-                       Foreground="#FFDADADA" 
-                       Canvas.Left="500" 
-                       FontWeight="Bold"/>
-            <Line Canvas.Left="562"
-                  Canvas.Top="0"
-                  Y1="15"
-                  Y2="30"
-                  Stroke="Gray"
-                  />
-            <Line Canvas.Left="624"
-                 Canvas.Top="0"
-                 Y1="15"
-                 Y2="30"
-                 Stroke="Gray"
-                 />
-            <Line Canvas.Left="686"
-                 Canvas.Top="0"
-                 Y1="15"
-                 Y2="30"
-                 Stroke="Gray"
-                 />
-            <Line Canvas.Left="748"
-                  Canvas.Top="0"
-                  Y1="30"
-                  Stroke="Gray"
-                  />
-            <TextBlock Text="4" 
-                       Foreground="#FFDADADA" 
-                       Canvas.Left="750" 
-                       FontWeight="Bold"/>
-        </Canvas>
-
-        <Slider Grid.Row="1" 
-                Value="0"
-                Minimum="0"
-                Maximum="100"
-                Margin="10"/>
-    </Grid>-->
+    <UserControl.DataContext>
+        <viewModels:TimelineViewModel/>
+    </UserControl.DataContext>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -172,5 +71,62 @@
                 ValueChanged="ScrollSlider_ValueChanged"
                 Margin="10"
                 IsMoveToPointEnabled="True"/>
+
+        <!-- Timeline and Editing Area -->
+        <Grid Grid.Row="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+            <!--TRACK TIMELINE LAYOUT WORK IN PROGRESS HERE-->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <ItemsControl>
+                    <Grid Height="100" Margin="0,0,0,5">
+                         <Rectangle Fill="#33E74C3C" Height="100"/>
+                         <Polyline Points="0,50 20,30 40,60 60,40 80,70 100,50 120,80 140,20 160,50 180,30 200,60 220,40 240,70 260,50 280,80 300,20" 
+                                   Stroke="#FFE74C3C" 
+                                   StrokeThickness="2"/>
+                         <Border Background="#66E74C3C" 
+                                 Width="280" 
+                                 Height="100" 
+                                 HorizontalAlignment="Left" 
+                                 Margin="20,0,0,0">
+                             <TextBlock Text="Vocals" 
+                                        Foreground="#FFDADADA" 
+                                        VerticalAlignment="Center" 
+                                        Margin="10,0"/>
+                         </Border>
+                    </Grid>
+                </ItemsControl>
+            </ScrollViewer>
+
+                <!-- Tracks Timeline -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding TrackList}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Height="100" Margin="0 0 0 4">
+                                    <Rectangle Fill="#33E74C3C" Height="100"/>
+                                    <Border Background="{Binding Color}" Opacity="0.5" Width="280" Height="100" HorizontalAlignment="Left" Margin="20,0,0,0">
+                                        <TextBlock Text="{Binding Name}" Foreground="#FFDADADA" VerticalAlignment="Center" Margin="10,0"/>
+                                    </Border>
+                                    <Polyline Points="0,50 20,30 40,60 60,40 80,70 100,50 120,80 140,20 160,50 180,30 200,60 220,40 240,70 260,50 280,80 300,20" 
+                                  Stroke="#FFE74C3C" StrokeThickness="2"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ScrollViewer.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Import audio file..."
+                                   Command="{Binding ImportAudioFileCommand}"/>
+                        </ContextMenu>
+                    </ScrollViewer.ContextMenu>
+                </ScrollViewer>
+            </Grid>
+            
+        </Grid>
     </Grid>
 </UserControl>

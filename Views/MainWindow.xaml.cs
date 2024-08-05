@@ -1,5 +1,7 @@
 ﻿using AudioSphere.ViewModels;
 using AudioSphere.Views;
+using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 
@@ -8,10 +10,13 @@ namespace AudioSphere;
 public partial class MainWindow : Window
 {
     private MainViewModel _mainVM;
-    public MainWindow()
+    private TimelineViewModel _timelineVM;
+    public MainWindow(MainViewModel mainVM, TimelineViewModel timelineVM)
     {
         InitializeComponent();
-        _mainVM = new MainViewModel();
+        _mainVM = mainVM ?? throw new ArgumentNullException(nameof(mainVM));
+        _timelineVM = timelineVM ?? throw new ArgumentNullException(nameof(timelineVM));
+
         DataContext = _mainVM;
     }
 
@@ -24,7 +29,7 @@ public partial class MainWindow : Window
     {
         var settingsWindow = new SettingsWindow
         {
-            DataContext = new SettingsViewModel()
+            DataContext = new SettingsViewModel(_mainVM)
         };
         settingsWindow.ShowDialog();
     }
@@ -33,7 +38,7 @@ public partial class MainWindow : Window
     {
         var addNewTrackWindow = new AddNewTrackWindow
         {
-            DataContext = new AddNewTrackViewModel(_mainVM)
+            DataContext = new AddNewTrackViewModel(_timelineVM ,_mainVM)
         };
         addNewTrackWindow.ShowDialog();
     }

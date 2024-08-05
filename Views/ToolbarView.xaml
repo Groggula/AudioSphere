@@ -304,8 +304,5 @@
                 </Border>
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="1" Grid.Column="1">
-            <local:TimelineView/>
-        </Grid>
     </Grid>
 </UserControl>

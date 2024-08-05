@@ -9,6 +9,9 @@
         Title="Add New Track" Height="300" Width="500"
         Background="#FF1E1E1E"
         WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <viewmodels:AddNewTrackViewModel/>
+    </Window.DataContext>
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
